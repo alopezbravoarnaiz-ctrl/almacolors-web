@@ -26,7 +26,9 @@ export const products: Product[] = [
     id: 'p1',
     slug: 'collar-cuero-eterno',
     name: 'El Clásico Eterno',
-    description: 'Un collar de cuero de grano completo que envejece con elegancia. Curtido vegetal y herrajes de latón macizo que no se oxidan. Perfecto para el día a día.',
+    description: 'Collares creados uno a uno, de forma totalmente artesanal. Confeccionados en pana, antelina y materiales de alta calidad, suaves y resistentes. Cada pieza nace para ser única, cómoda y protectora, hecha a medida para cada perro',
+
+
     basePrice: 45,
     // He puesto tus fotos actuales como ejemplo para que no salgan rotas
     images: [
@@ -39,7 +41,7 @@ export const products: Product[] = [
       minNeckSize: 20,
       maxNeckSize: 65
     },
-    materials: ['Cuero Vacuno', 'Latón Macizo', 'Hilo encerado'],
+    materials: ['Pana', 'Tela Tapacosturas', 'Relleno Guata',],
     colors: ['Roble Oscuro', 'Coñac']
   },
   {

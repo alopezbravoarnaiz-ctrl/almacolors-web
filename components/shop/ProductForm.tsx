@@ -171,11 +171,21 @@ export default function ProductForm({ product }: ProductFormProps) {
             {product.materials.map((mat, i) => <li key={i}>{mat}</li>)}
           </ul>
         </AccordionItem>
-        <AccordionItem title="CUIDADOS">
-          <p className="text-stone-500">Limpieza con paño húmedo. Hidratación mensual del cuero.</p>
-        </AccordionItem>
+        <AccordionItem title="SISTEMA DE CIERRE">
+  <div className="space-y-4 text-stone-500">
+    <p>
+      Nuestros collares llevan un cierre tipo Martingale, suave y seguro.
+    </p>
+    <p>
+      Cuando el perro tira, el collar se ajusta un poco para evitar escapes; cuando deja de tirar, vuelve a su posición holgada.
+    </p>
+    <p>
+      Es un sistema amable con el cuello, sin piezas duras, perfecto para perros sensibles.
+    </p>
+  </div>
+</AccordionItem>
         <AccordionItem title="ENVÍO">
-          <p className="text-stone-500">Gratis en Península. Fabricación 3-5 días.</p>
+          <p className="text-stone-500">Gratis en Península. Fabricación 10-15 días.</p>
         </AccordionItem>
       </div>
 
@@ -198,9 +208,9 @@ export default function ProductForm({ product }: ProductFormProps) {
               <p>Para asegurar un ajuste perfecto, necesitamos la medida exacta del cuello de tu perro.</p>
               <div className="bg-stone-50 p-5 rounded-md border border-stone-100">
                 <ol className="list-decimal list-inside space-y-3 font-medium text-stone-800">
-                  <li>Usa una <strong>cinta métrica flexible</strong>.</li>
-                  <li>Rodea el cuello justo donde suele caer el collar.</li>
-                  <li><span className="block mt-1 text-stone-600 font-normal pl-5">Deja <strong>dos dedos</strong> de holgura.</span></li>
+                  <li>Coloca la cinta métrica alrededor del cuello de tu perro, en la misma zona donde normalmente llevaría el collar.</li>
+                  <li>Ajusta la cinta sin apretar, pero procura que no quede holgada. Debe quedar justa, permitiendo que puedas mover ligeramente la cinta sin que baile.</li>
+                  <li>Toma la medida exacta que marque la cinta en ese punto.</li>
                   <li>Anota esa medida en CM.</li>
                 </ol>
               </div>

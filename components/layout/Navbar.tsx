@@ -3,17 +3,14 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { ShoppingBag, Search, User, Menu } from "lucide-react";
-import MobileMenu from "./MobileMenu";
-import { useCart } from "@/context/CartContext"; // <--- 1. Importamos el contexto
+import MobileMenu from "./MobileMenu"; 
+import { useCart } from "../../context/CartContext";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  
-  // 2. Lógica del Carrito
   const { cartCount } = useCart();
   const [mounted, setMounted] = useState(false);
 
-  // Evitamos errores de hidratación (Server vs Client)
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -24,7 +21,7 @@ const Navbar = () => {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
             
-            {/* IZQUIERDA: Botón Menú y Links */}
+            {/* IZQUIERDA: Botón Menú (Móvil) y Links (Desktop) */}
             <div className="flex items-center">
               <button 
                 onClick={() => setIsMenuOpen(true)} 
@@ -33,12 +30,22 @@ const Navbar = () => {
                 <Menu className="h-6 w-6 stroke-[1.5]" />
               </button>
 
-              <div className="hidden sm:flex space-x-8">
+              {/* LINKS DE ESCRITORIO - Actualizados con Historia y Contacto */}
+              <div className="hidden sm:flex space-x-6">
                 <Link href="/collares" className="text-xs tracking-widest uppercase text-neutral-600 hover:text-black transition-colors">
                   Collares
                 </Link>
-                <Link href="/taller" className="text-xs tracking-widest uppercase text-neutral-600 hover:text-black transition-colors">
+                <Link href="/category/correas" className="text-xs tracking-widest uppercase text-neutral-600 hover:text-black transition-colors">
+                  Correas
+                </Link>
+                <Link href="/about" className="text-xs tracking-widest uppercase text-neutral-600 hover:text-black transition-colors">
                   El Taller
+                </Link>
+                <Link href="/history" className="text-xs tracking-widest uppercase text-neutral-600 hover:text-black transition-colors">
+                  Historia
+                </Link>
+                <Link href="/contacto" className="text-xs tracking-widest uppercase text-neutral-600 hover:text-black transition-colors">
+                  Contacto
                 </Link>
               </div>
             </div>
@@ -57,19 +64,16 @@ const Navbar = () => {
               <button className="p-2 text-neutral-600 hover:text-black transition-colors">
                 <Search className="h-5 w-5 stroke-[1.5]" />
               </button>
-              
               <button className="p-2 text-neutral-600 hover:text-black transition-colors hidden sm:block">
                 <User className="h-5 w-5 stroke-[1.5]" />
               </button>
-
-              {/* --- AQUÍ ESTÁ EL CAMBIO: BOLSA VINCULADA --- */}
+              
+              {/* BOLSA VINCULADA */}
               <Link 
                 href="/cart" 
                 className="p-2 text-neutral-600 hover:text-black transition-colors relative group"
               >
                 <ShoppingBag className="h-5 w-5 stroke-[1.5]" />
-                
-                {/* Badge (Bolita con número) */}
                 {mounted && cartCount > 0 && (
                   <span className="absolute top-0.5 right-0.5 h-4 w-4 rounded-full bg-black text-white text-[9px] font-bold flex items-center justify-center animate-in zoom-in duration-300">
                     {cartCount}

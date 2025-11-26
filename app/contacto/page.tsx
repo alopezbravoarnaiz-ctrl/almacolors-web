@@ -12,21 +12,32 @@ export default function ContactPage() {
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    
+    // Evitar doble envío
+    if (isSubmitting) return;
+
     setIsSubmitting(true);
     setErrorMessage("");
 
     const formData = new FormData(event.currentTarget);
     
-    // Llamamos a la Server Action
-    const result = await submitContactForm(null, formData);
+    try {
+        // Llamamos a la Server Action
+        const result = await submitContactForm(null, formData);
 
-    if (result.success) {
-      setIsSuccess(true);
-      // Opcional: Resetear formulario aquí si quieres
-    } else {
-      setErrorMessage(result.error || "Algo salió mal.");
+        if (result.success) {
+          setIsSuccess(true);
+          // Opcional: Resetear formulario aquí si quieres
+          (event.target as HTMLFormElement).reset();
+        } else {
+          setErrorMessage(result.error || "Algo salió mal. Por favor, inténtalo de nuevo.");
+        }
+    } catch (error) {
+        console.error("Error al enviar el formulario:", error);
+        setErrorMessage("Hubo un problema de conexión. Revisa tu internet e inténtalo de nuevo.");
+    } finally {
+        setIsSubmitting(false);
     }
-    setIsSubmitting(false);
   }
 
   return (

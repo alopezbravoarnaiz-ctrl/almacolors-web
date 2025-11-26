@@ -1,0 +1,82 @@
+import { NextResponse } from "next/server";
+import Stripe from "stripe";
+
+// Inicializamos Stripe
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
+  apiVersion: "2024-11-20.acacia", // Usa la versión que te sugiera el editor o la más reciente
+});
+
+export async function POST(request: Request) {
+  try {
+    const body = await request.json();
+    const { items } = body;
+
+    if (!items || items.length === 0) {
+      return NextResponse.json({ error: "No hay productos" }, { status: 400 });
+    }
+
+    // 1. Transformamos tus productos al formato que pide Stripe
+    // OJO: Stripe espera céntimos (multiplicar por 100)
+    const lineItems = items.map((item: any) => {
+      // Recuperamos la imagen absoluta (Stripe no lee localhost)
+      // En producción usará tu dominio real. En local, las imágenes podrían no verse en el checkout, es normal.
+      const origin = request.headers.get("origin") || "http://localhost:3000";
+      let imageUrl = item.product.images[0];
+      
+      if (imageUrl.startsWith("/")) {
+        imageUrl = `${origin}${imageUrl}`;
+      }
+
+      return {
+        price_data: {
+          currency: "eur",
+          product_data: {
+            name: item.product.name,
+            description: item.engravingText 
+              ? `Talla: ${item.selectedSize}cm | Bordado: ${item.engravingText}`
+              : `Talla: ${item.selectedSize}cm`,
+            images: [imageUrl], 
+          },
+          unit_amount: Math.round(item.unitPrice * 100), // Importante: Céntimos
+        },
+        quantity: item.quantity,
+      };
+    });
+
+    // 2. Creamos la sesión de Checkout
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"], // Acepta tarjeta, Apple Pay y Google Pay auto
+      line_items: lineItems,
+      mode: "payment",
+      // Configuramos envío a España
+      shipping_address_collection: {
+        allowed_countries: ["ES"], 
+      },
+      shipping_options: [
+        {
+          shipping_rate_data: {
+            type: "fixed_amount",
+            fixed_amount: { amount: 0, currency: "eur" },
+            display_name: "Envío Gratuito",
+            delivery_estimate: {
+              minimum: { unit: "business_day", value: 3 },
+              maximum: { unit: "business_day", value: 5 },
+            },
+          },
+        },
+      ],
+      phone_number_collection: {
+        enabled: true, // Pedimos teléfono para el transportista
+      },
+      // A donde vuelve el cliente tras pagar
+      success_url: `${request.headers.get("origin")}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${request.headers.get("origin")}/cart`,
+    });
+
+    return NextResponse.json({ url: session.url });
+
+  } catch (error: any) {
+    console.error("Error Stripe:", error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+}

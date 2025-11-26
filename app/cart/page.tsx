@@ -1,12 +1,45 @@
 "use client";
 
 import Link from "next/link";
-import { useCart } from "@/context/CartContext";
-import { X, Minus, Plus } from "lucide-react";
+import { useState } from "react";
+// Usamos ruta relativa para asegurar que encuentre el contexto
+import { useCart } from "../../context/CartContext";
+import { X, Minus, Plus, Loader2 } from "lucide-react";
 
 export default function CartPage() {
   const { cartItems, removeFromCart, cartTotal } = useCart();
+  // Estado para controlar la carga al pulsar pagar
+  const [isLoading, setIsLoading] = useState(false);
 
+  // --- FUNCIÓN PARA LLAMAR A STRIPE ---
+  const handleCheckout = async () => {
+    setIsLoading(true);
+    try {
+      // Llamamos a nuestro backend (api/checkout/route.ts)
+      const response = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ items: cartItems }),
+      });
+
+      const data = await response.json();
+
+      if (data.url) {
+        // Si todo va bien, Stripe nos da una URL y nos vamos allí
+        window.location.href = data.url;
+      } else {
+        console.error("Error:", data.error);
+        alert("Hubo un error al iniciar el pago. Inténtalo de nuevo.");
+        setIsLoading(false);
+      }
+    } catch (error) {
+      console.error("Error de conexión:", error);
+      alert("Error de conexión con el servidor.");
+      setIsLoading(false);
+    }
+  };
+
+  // Si el carrito está vacío
   if (cartItems.length === 0) {
     return (
       <div className="min-h-[60vh] flex flex-col items-center justify-center text-center px-6">
@@ -27,7 +60,6 @@ export default function CartPage() {
       {/* CABECERA */}
       <div className="flex justify-between items-center mb-12 pb-4 border-b border-stone-100">
         <h1 className="font-serif text-3xl uppercase tracking-wide">Mi Cesta</h1>
-        {/* El botón X en una página completa suele volver atrás o al inicio */}
         <Link href="/" className="text-stone-400 hover:text-black transition-colors">
            <X className="w-6 h-6" />
         </Link>
@@ -53,19 +85,16 @@ export default function CartPage() {
                 <p className="font-serif text-lg">{item.unitPrice}€</p>
               </div>
 
-              {/* TALLA Y BORDADO (Tus requisitos específicos) */}
+              {/* TALLA Y BORDADO */}
               <div className="text-sm text-stone-600 space-y-1 mb-4 flex-grow">
-                 {/* Mostramos el color si lo tuviera el producto base */}
                  {item.product.colors && item.product.colors.length > 0 && (
                     <p><span className="text-stone-400">Color:</span> {item.product.colors[0]}</p>
                  )}
                 
-                {/* TALLA EN CM */}
                 <p>
                   <span className="text-stone-400">Perímetro:</span> {item.selectedSize} CM
                 </p>
                 
-                {/* NOMBRE BORDADO */}
                 <p>
                    <span className="text-stone-400">Bordado:</span>{" "}
                    {item.engravingText ? (
@@ -79,11 +108,11 @@ export default function CartPage() {
               {/* CANTIDAD Y ELIMINAR */}
               <div className="flex justify-between items-end">
                  <div className="flex items-center gap-3 border border-stone-200 px-3 py-1">
+                    {/* Botones decorativos por ahora */}
                     <button className="text-stone-400 hover:text-black disabled:opacity-50" disabled={item.quantity <= 1}>
                        <Minus className="w-3 h-3" />
                     </button>
                     <span className="text-sm font-medium w-4 text-center">{item.quantity}</span>
-                     {/* Por ahora no he puesto la lógica de sumar en el contexto para simplificar, pero el botón está */}
                     <button className="text-stone-400 hover:text-black">
                        <Plus className="w-3 h-3" />
                     </button>
@@ -100,7 +129,7 @@ export default function CartPage() {
         ))}
       </div>
 
-      {/* FOOTER DEL CARRITO (Código descuento y Totales) */}
+      {/* FOOTER DEL CARRITO */}
       <div className="space-y-6">
         <div>
            <label className="text-sm font-bold uppercase tracking-widest mb-2 block">¿Tienes un código de descuento?</label>
@@ -116,13 +145,29 @@ export default function CartPage() {
         </div>
 
         <div className="space-y-3">
-          <button className="w-full bg-black text-white h-14 text-xs font-bold tracking-[0.2em] uppercase hover:bg-stone-800 transition-colors">
-            FINALIZAR COMPRA
+          {/* BOTÓN CONECTADO A STRIPE */}
+          <button 
+            onClick={handleCheckout}
+            disabled={isLoading}
+            className="w-full bg-black text-white h-14 text-xs font-bold tracking-[0.2em] uppercase hover:bg-stone-800 transition-colors flex items-center justify-center gap-2 disabled:opacity-70"
+          >
+            {isLoading ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" /> PROCESANDO...
+              </>
+            ) : (
+              "FINALIZAR COMPRA"
+            )}
           </button>
+          
           <Link href="/" className="flex items-center justify-center w-full bg-white text-black border border-black h-14 text-xs font-bold tracking-[0.2em] uppercase hover:bg-stone-50 transition-colors">
             CONTINUAR COMPRA
           </Link>
         </div>
+        
+        <p className="text-[10px] text-stone-400 text-center mt-4">
+          Pagos seguros procesados por Stripe. Envíos gratuitos a toda la península.
+        </p>
       </div>
     </div>
   );

@@ -20,8 +20,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Artesanía Canina | Collares a Medida",
-  description: "Collares de cuero y materiales nobles hechos a mano.",
+  title: "Alma Colors | Collares a Medida",
+  description: "Collares de pana acolchada y materiales nobles hechos a mano.",
 };
 
 export default function RootLayout({
