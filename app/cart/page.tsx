@@ -15,7 +15,8 @@ export default function CartPage() {
   const handleCheckout = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch("/api/checkout", {
+      // CAMBIO AQUÍ: Cambiamos "/api/checkout" por "/api/payment"
+      const response = await fetch("/api/payment", { 
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ items: cartItems }),

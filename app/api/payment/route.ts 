@@ -3,7 +3,7 @@ import Stripe from "stripe";
 
 // Inicializamos Stripe
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
-  apiVersion: "2024-11-20.acacia", // Usa la versión más reciente
+  apiVersion: "2024-11-20.acacia", 
 });
 
 export async function POST(request: Request) {
@@ -15,25 +15,21 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "No hay productos" }, { status: 400 });
     }
 
-    // --- CONFIGURACIÓN DE DOMINIO ROBUSTA ---
-    // 1. Intentamos obtener el dominio de la petición
-    // 2. Si falla (es null), usamos tu dominio de Vercel "hardcodeado" como respaldo seguro.
-    // IMPORTANTE: Si cambias de dominio en el futuro, actualiza esta variable.
+    // 1. Configuración de Dominio Segura
+    // Si 'origin' falla, usa tu dominio de producción.
     const productionUrl = "https://almacolors-web-rcj3.vercel.app"; 
     const origin = request.headers.get("origin") || productionUrl;
 
-    // --- CREACIÓN DE ITEMS PARA STRIPE ---
+    // 2. Preparar Items
     const lineItems = items.map((item: any) => {
       let imageUrl = item.product.images[0];
 
-      // FIX DE IMÁGENES:
-      // Si la imagen es relativa (empieza por /), le pegamos el dominio delante.
-      // Stripe OBLIGA a que las imágenes sean URLs completas (https://...)
+      // Fix para imágenes relativas
       if (imageUrl && imageUrl.startsWith("/")) {
         imageUrl = `${origin}${imageUrl}`;
       } 
       
-      // Fallback de seguridad: Si no hay imagen, ponemos una genérica para que no falle el pago
+      // Fallback si no hay imagen (para evitar error 500 de Stripe)
       if (!imageUrl) {
         imageUrl = "https://via.placeholder.com/300?text=Almacolors";
       }
@@ -46,16 +42,15 @@ export async function POST(request: Request) {
             description: item.engravingText 
               ? `Talla: ${item.selectedSize}cm | Bordado: ${item.engravingText}`
               : `Talla: ${item.selectedSize}cm`,
-            // Le pasamos la imagen ya procesada (absoluta)
             images: [imageUrl], 
           },
-          unit_amount: Math.round(item.unitPrice * 100), // Céntimos
+          unit_amount: Math.round(item.unitPrice * 100), 
         },
         quantity: item.quantity,
       };
     });
 
-    // --- CREAR SESIÓN ---
+    // 3. Crear Sesión
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: lineItems,
@@ -79,7 +74,7 @@ export async function POST(request: Request) {
       phone_number_collection: {
         enabled: true,
       },
-      // Usamos la variable 'origin' que definimos arriba para asegurar que vuelve al sitio correcto
+      // Usamos 'origin' para volver al sitio correcto
       success_url: `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/cart`,
     });
@@ -88,7 +83,6 @@ export async function POST(request: Request) {
 
   } catch (error: any) {
     console.error("Error Stripe:", error);
-    // Devolvemos el mensaje de error exacto para verlo en el frontend
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
