@@ -15,26 +15,32 @@ export default function CartPage() {
   const handleCheckout = async () => {
     setIsLoading(true);
     try {
-      // Llamamos a nuestro backend (api/checkout/route.ts)
       const response = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ items: cartItems }),
       });
 
+      // 1. PRIMERO comprobamos si la respuesta está OK antes de intentar leer JSON
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Error del servidor (Texto):", errorText);
+        throw new Error(`Error ${response.status}: ${errorText || response.statusText}`);
+      }
+
+      // 2. Si está OK, leemos el JSON
       const data = await response.json();
 
       if (data.url) {
-        // Si todo va bien, Stripe nos da una URL y nos vamos allí
         window.location.href = data.url;
       } else {
-        console.error("Error:", data.error);
-        alert("Hubo un error al iniciar el pago. Inténtalo de nuevo.");
-        setIsLoading(false);
+        throw new Error(data.error || "No se recibió URL de Stripe");
       }
-    } catch (error) {
-      console.error("Error de conexión:", error);
-      alert("Error de conexión con el servidor.");
+      
+    } catch (error: any) {
+      console.error("ERROR REAL:", error);
+      // Mostramos el error real en el alert para que sepas qué es
+      alert(`Error: ${error.message}`);
       setIsLoading(false);
     }
   };
