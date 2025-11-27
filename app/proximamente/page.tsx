@@ -25,29 +25,29 @@ export default function ComingSoonPage() {
   };
 
   return (
-    <div className="min-h-screen bg-stone-50 text-stone-900 flex flex-col font-sans overflow-hidden relative">
+    <div className="min-h-screen bg-stone-900 text-stone-100 flex flex-col font-sans overflow-hidden relative">
       
       {/* --- COLLAGE DE FONDO --- */}
       {/* Eliminado 'hidden'. Ahora usamos clases responsive para ajustar tamaños y posiciones */}
       <div className="absolute inset-0 z-0 opacity-30 md:opacity-40 pointer-events-none overflow-hidden">
          
          {/* Foto 1: Izquierda Arriba (Visible en móvil y PC) */}
-         <div className="absolute top-[-2%] left-[-15%] md:top-[-5%] md:left-[-5%] w-48 h-64 md:w-72 md:h-96 bg-stone-200 rotate-[-6deg] shadow-2xl overflow-hidden border-4 md:border-8 border-white">
+         <div className="absolute top-[2%] left-[-10%] w-40 h-56 md:top-[-5%] md:left-[-5%] md:w-72 md:h-96 bg-stone-200 rotate-[-12deg] md:rotate-[-6deg] shadow-2xl overflow-hidden border-4 md:border-8 border-white">
             <img src="/HP_portada.jpg" className="w-full h-full object-cover grayscale opacity-80" alt="Textura" />
          </div>
          
-         {/* Foto 2: Derecha Arriba (Solo PC para no saturar móvil) */}
-         <div className="hidden md:block absolute top-[5%] right-[-2%] w-80 h-80 bg-stone-200 rotate-[3deg] shadow-2xl overflow-hidden border-8 border-white rounded-full">
+         {/* Foto 2: Derecha Arriba (Ahora visible en móvil) */}
+         <div className="absolute top-[5%] right-[-15%] w-48 h-48 md:top-[5%] md:right-[-2%] md:w-80 md:h-80 bg-stone-200 rotate-[15deg] md:rotate-[3deg] shadow-2xl overflow-hidden border-4 md:border-8 border-white rounded-full">
             <img src="/ABOUT_alma.jpg" className="w-full h-full object-cover sepia-[.3]" alt="Taller" />
          </div>
 
-         {/* Foto 3: Izquierda Abajo (Solo PC) */}
-         <div className="hidden md:block absolute bottom-[10%] left-[5%] w-64 h-80 bg-stone-200 rotate-[4deg] shadow-2xl overflow-hidden border-8 border-white">
+         {/* Foto 3: Izquierda Abajo (Ahora visible en móvil) */}
+         <div className="absolute bottom-[10%] left-[-12%] w-36 h-48 md:bottom-[10%] md:left-[5%] md:w-64 md:h-80 bg-stone-200 rotate-[8deg] md:rotate-[4deg] shadow-2xl overflow-hidden border-4 md:border-8 border-white">
             <img src="/HP-texto2.jpeg" className="w-full h-full object-cover" alt="Lifestyle" />
          </div>
 
-         {/* Foto 4: Derecha Abajo (Visible en móvil más pequeña) */}
-         <div className="absolute bottom-[-5%] right-[-10%] md:bottom-[-10%] md:right-[10%] w-40 h-40 md:w-96 md:h-96 bg-stone-200 rotate-[-3deg] shadow-2xl overflow-hidden border-4 md:border-8 border-white">
+         {/* Foto 4: Derecha Abajo (Visible en móvil) */}
+         <div className="absolute bottom-[-5%] right-[-8%] w-56 h-56 md:bottom-[-10%] md:right-[10%] md:w-96 md:h-96 bg-stone-200 rotate-[-10deg] md:rotate-[-3deg] shadow-2xl overflow-hidden border-4 md:border-8 border-white">
              <img src="/NS_collartela.jpg" className="w-full h-full object-cover grayscale" alt="Producto" />
          </div>
          
@@ -58,14 +58,15 @@ export default function ComingSoonPage() {
       {/* --- CONTENIDO PRINCIPAL --- */}
       <div className="relative z-10 flex-grow flex flex-col items-center justify-center px-6 py-12 text-center">
         
-        <h1 className="font-serif text-4xl md:text-6xl mb-4 tracking-tighter">
+        <h1 className="font-serif text-4xl md:text-6xl mb-4 tracking-tighter text-white drop-shadow-sm">
           ALMACOLORS
         </h1>
-        <p className="text-[10px] tracking-[0.4em] uppercase text-stone-500 mb-12 md:mb-16">
+        <p className="text-[10px] tracking-[0.4em] uppercase text-stone-300 mb-12 md:mb-16">
           Artesanía Canina
         </p>
 
-        <div className="w-full max-w-xl bg-white/90 backdrop-blur-md p-8 md:p-12 shadow-sm border border-white/50 space-y-8 rounded-sm">
+        {/* Caja Blanca (Contraste con el fondo oscuro) */}
+        <div className="w-full max-w-xl bg-white/95 backdrop-blur-md p-8 md:p-12 shadow-2xl border border-white/50 space-y-8 rounded-sm text-stone-900">
            <h2 className="font-serif text-xl md:text-3xl text-stone-800 leading-tight">
              "Las cosas buenas se cocinan a fuego lento."
            </h2>
@@ -97,7 +98,7 @@ export default function ComingSoonPage() {
                      value={email}
                      onChange={(e) => setEmail(e.target.value)}
                      placeholder="TU CORREO ELECTRÓNICO"
-                     className="w-full bg-transparent border-b border-stone-300 py-3 text-center text-sm tracking-widest placeholder:text-stone-400 focus:outline-none focus:border-black transition-colors"
+                     className="w-full bg-transparent border-b border-stone-300 py-3 text-center text-sm tracking-widest placeholder:text-stone-400 focus:outline-none focus:border-black transition-colors text-stone-800"
                    />
                    <button 
                      type="submit" 
@@ -117,17 +118,17 @@ export default function ComingSoonPage() {
 
       </div>
 
-      {/* --- FOOTER --- */}
-      <div className="relative z-10 py-8 text-center space-y-4 bg-gradient-to-t from-stone-50 via-stone-50 to-transparent">
+      {/* --- FOOTER (Texto claro sobre fondo oscuro) --- */}
+      <div className="relative z-10 py-8 text-center space-y-4">
          <div className="flex justify-center gap-6">
-            <a href="https://instagram.com/almacolors_studio" target="_blank" className="text-stone-400 hover:text-stone-900 transition-colors">
+            <a href="https://instagram.com/almacolors_studio" target="_blank" className="text-stone-400 hover:text-white transition-colors">
                <Instagram className="w-5 h-5" />
             </a>
-            <a href="mailto:almacolorscollares@gmail.com" className="text-xs tracking-widest text-stone-400 hover:text-stone-900 uppercase transition-colors pt-0.5">
+            <a href="mailto:almacolorscollares@gmail.com" className="text-xs tracking-widest text-stone-400 hover:text-white uppercase transition-colors pt-0.5">
                Contacto
             </a>
          </div>
-         <p className="text-[9px] text-stone-300 uppercase tracking-widest">
+         <p className="text-[9px] text-stone-500 uppercase tracking-widest">
             © {new Date().getFullYear()} AlmaColors Studio
          </p>
       </div>

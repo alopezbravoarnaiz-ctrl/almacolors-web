@@ -70,7 +70,6 @@ export async function subscribeToNewsletter(prevState: any, formData: FormData) 
   const validation = NewsletterSchema.safeParse({ email: rawEmail });
 
   if (!validation.success) {
-    // CORRECCIÓN: Usamos .issues en lugar de .errors
     return {
       success: false,
       error: validation.error.issues[0]?.message || "Email inválido",
@@ -81,28 +80,35 @@ export async function subscribeToNewsletter(prevState: any, formData: FormData) 
     const email = validation.data.email;
     const audienceId = process.env.RESEND_AUDIENCE_ID;
 
+    // --- LOG DE DEPURACIÓN 1 ---
+    console.log("👉 Intentando suscribir a:", email);
+    console.log("👉 Usando Audience ID:", audienceId);
+
     if (!audienceId) {
-      console.error("Falta RESEND_AUDIENCE_ID en .env");
+      console.error("❌ ERROR: Falta RESEND_AUDIENCE_ID");
       return { success: false, error: "Error de configuración en el servidor." };
     }
 
     // 2. Crear contacto en Resend
+    // MEJORA: Quitamos 'firstName' si está vacío para no enviar datos sucios
     const response = await resend.contacts.create({
       email: email,
-      firstName: "",
       unsubscribed: false,
       audienceId: audienceId,
     });
 
+    // --- LOG DE DEPURACIÓN 2 ---
+    console.log("👉 Respuesta de Resend:", JSON.stringify(response, null, 2));
+
     if (response.error) {
-      console.error("Error Resend Contacts:", response.error);
+      console.error("❌ Error devuelto por Resend:", response.error);
       return { success: false, error: "No se pudo completar la suscripción." };
     }
 
     return { success: true, error: null };
 
   } catch (error) {
-    console.error("Error inesperado newsletter:", error);
+    console.error("❌ EXCEPCIÓN CRÍTICA:", error);
     return { success: false, error: "Ocurrió un error técnico." };
   }
 }
