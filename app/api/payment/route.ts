@@ -66,8 +66,8 @@ export async function POST(request: Request) {
             fixed_amount: { amount: 0, currency: "eur" },
             display_name: "Envío Gratuito",
             delivery_estimate: {
-              minimum: { unit: "business_day", value: 3 },
-              maximum: { unit: "business_day", value: 5 },
+              minimum: { unit: "business_day", value: 7 },
+              maximum: { unit: "business_day", value: 10 },
             },
           },
         },

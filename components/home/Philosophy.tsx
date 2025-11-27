@@ -8,7 +8,7 @@ export default function Philosophy() {
       {/* CAMBIO 1: Subimos opacity-40 a opacity-70. Ahora la foto manda. */}
       <div className="absolute inset-0 opacity-70">
         <img 
-          src="/HP_texto.jpg"
+          src="/HP-texto2.jpeg"
           alt="Textura natural"
           // Mantenemos los filtros porque el tono es bonito, pero al 70% de opacidad se verán mucho mejor.
           className="w-full h-full object-cover saturate-50 sepia-50"

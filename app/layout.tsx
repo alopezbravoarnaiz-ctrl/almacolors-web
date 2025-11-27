@@ -3,7 +3,9 @@ import { Libre_Baskerville, Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import TopBanner from "@/components/layout/TopBanner";
-import { CartProvider } from "@/context/CartContext"; // <--- 1. NUEVO IMPORT
+import Footer from "@/components/layout/Footer"; // <--- 1. Importamos el Footer
+import { CartProvider } from "@/context/CartContext";
+import CookieBanner from "@/components/ui/CookieBanner";
 
 // Configuración de fuentes
 const libreBaskerville = Libre_Baskerville({
@@ -31,25 +33,35 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className={`${libreBaskerville.variable} ${inter.variable} font-sans bg-background text-foreground antialiased`}>
+      <body className={`${libreBaskerville.variable} ${inter.variable} font-sans bg-white text-stone-900 antialiased`}>
         
-        {/* 2. ENVOLVEMOS TODO CON EL CART PROVIDER */}
-        {/* Así el Navbar puede ver el número de items y las páginas pueden añadir productos */}
+        {/* ENVOLVEMOS TODO CON EL CART PROVIDER */}
         <CartProvider>
           
-          {/* Estructura del Encabezado */}
-          <div className="relative z-50 flex flex-col">
-            <TopBanner />
-            <Navbar />
+          {/* Estructura Flex Vertical para Footer Sticky */}
+          <div className="flex flex-col min-h-screen">
+            
+            {/* Header (Banner + Nav) */}
+            <div className="relative z-50 flex flex-col">
+              <TopBanner />
+              <Navbar />
+            </div>
+
+            {/* Contenido Principal */}
+            {/* 'flex-grow' hace que este bloque ocupe todo el espacio disponible, empujando el footer abajo */}
+            <main className="flex-grow pt-4"> 
+              {children}
+            </main>
+
+            {/* FOOTER AÑADIDO AL FINAL DEL FLUJO */}
+            <Footer />
+            
           </div>
 
-          {/* Contenido Principal */}
-          <main className="min-h-screen">
-            {children}
-          </main>
+          {/* BANNER DE COOKIES (Flotante, fuera del flujo visual) */}
+          <CookieBanner />
 
         </CartProvider>
-        
       </body>
     </html>
   );

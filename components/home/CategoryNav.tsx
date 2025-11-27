@@ -6,7 +6,7 @@ import Link from "next/link";
 const categories = [
   {
     title: "COLLARES",
-    image: "/HP_telas.jpg",
+    image: "/HP_collares2.jpeg",
     href: "/category/collares"
   },
   {
@@ -16,7 +16,7 @@ const categories = [
   },
   {
     title: "HISTORIA", // He acortado el título para que sea más limpio visualmente
-    image: "/HP_teckel.jpg",
+    image: "/ABOUT_mama2.jpg",
     href: "/about"
   },
   

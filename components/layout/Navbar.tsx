@@ -35,9 +35,7 @@ const Navbar = () => {
                 <Link href="/collares" className="text-xs tracking-widest uppercase text-neutral-600 hover:text-black transition-colors">
                   Collares
                 </Link>
-                <Link href="/category/correas" className="text-xs tracking-widest uppercase text-neutral-600 hover:text-black transition-colors">
-                  Correas
-                </Link>
+                
                 <Link href="/about" className="text-xs tracking-widest uppercase text-neutral-600 hover:text-black transition-colors">
                   El Taller
                 </Link>

@@ -24,61 +24,26 @@ export interface Product {
 export const products: Product[] = [
   {
     id: 'p1',
-    slug: 'collar-cuero-eterno',
-    name: 'El Clásico Eterno',
+    slug: 'collar-marshall',
+    name: 'MARSHALL',
     description: 'Collares creados uno a uno, de forma totalmente artesanal. Confeccionados en pana, antelina y materiales de alta calidad, suaves y resistentes. Cada pieza nace para ser única, cómoda y protectora, hecha a medida para cada perro',
 
 
-    basePrice: 45,
+    basePrice: 35,
     // He puesto tus fotos actuales como ejemplo para que no salgan rotas
     images: [
-      '/HP_telas.jpg', 
-      '/HP_taller.jpg'
+      '/PT01_marshall.jpeg', 
+      
     ],
     customizationOptions: {
       allowsEngraving: true,
-      engravingPrice: 5,
-      minNeckSize: 20,
+      engravingPrice: 8,
+      minNeckSize: 15,
       maxNeckSize: 65
     },
-    materials: ['Pana', 'Tela Tapacosturas', 'Relleno Guata',],
+    materials: ['Pana exterior', 'Tela tapacosturas', 'Relleno acolchado',],
     colors: ['Roble Oscuro', 'Coñac']
   },
-  {
-    id: 'p2',
-    slug: 'trenzado-nautico',
-    name: 'Trenzado Náutico',
-    description: 'Inspirado en los nudos marineros. Cuerda de algodón de alta resistencia teñida a mano. Suave al tacto pero increíblemente resistente.',
-    basePrice: 38,
-    images: [
-      '/HP_teckel.jpg',
-      '/HP_texto.jpg'
-    ],
-    customizationOptions: {
-      allowsEngraving: true,
-      engravingPrice: 5,
-      minNeckSize: 25,
-      maxNeckSize: 60
-    },
-    materials: ['Algodón Orgánico', 'Hilo Encerado'],
-    colors: ['Azul Profundo', 'Arena']
-  },
-  {
-    id: 'p3',
-    slug: 'coleccion-pana',
-    name: 'Colección Pana Soft',
-    description: 'La opción más suave para cuellos sensibles. Pana de alta calidad reforzada interiormente con cinta de nylon resistente.',
-    basePrice: 40,
-    images: [
-      '/HP_telas.jpg'
-    ],
-    customizationOptions: {
-      allowsEngraving: true,
-      engravingPrice: 5,
-      minNeckSize: 15,
-      maxNeckSize: 55
-    },
-    materials: ['Pana 100% Algodón', 'Nylon', 'Latón'],
-    colors: ['Verde Bosque', 'Teja']
-  }
+  
+ 
 ];

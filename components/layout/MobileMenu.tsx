@@ -12,10 +12,10 @@ interface MobileMenuProps {
 
 const menuItems = [
   { label: "COLLARES", href: "/category/collares" },
-  { label: "CORREAS", href: "/category/correas" },
-  { label: "EL TALLER", href: "/about" },
-  { label: "HISTORIA", href: "/history" },
- { label: "CONTACTO", href: "/contacto" },
+  { label: "EL TALLER", href: "/history" },
+  { label: "HISTORIA", href: "/about" },
+  { label: "CONTACTO", href: "/contacto" },
+  { label: "ENVÍOS & DEVOLUCIONES", href: "/envios" },
 ];
 
 export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
