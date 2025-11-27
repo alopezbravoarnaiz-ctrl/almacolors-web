@@ -5,7 +5,7 @@ export default function AboutPage() {
       {/* 1. CABECERA CON IMAGEN (Hero Section) */}
       <div className="relative w-full h-[50vh] md:h-[65vh] bg-stone-100 overflow-hidden">
         <img
-          src="/ABOUT_mama.jpeg" // <--- Asegúrate de subir esta foto a /public
+          src="/ABOUT_alma.jpg" // <--- Asegúrate de subir esta foto a /public
           alt="El alma de AlmaColors"
           className="w-full h-full object-cover object-top"
         />
